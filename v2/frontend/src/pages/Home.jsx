@@ -9,7 +9,7 @@ import PopupNotification from '../components/PopupNotification/PopupNotification
 
 function Home() {
   return (
-    <div className=" mx-20 min-h-screen">
+    <div className="  min-h-screen">
       <Hero />
       <Stats />
       <WhatIsWow />
