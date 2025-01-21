@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/assets/fonts/GoogleSans-Regular.woff2') format('woff2'),
+       url('/assets/fonts/GoogleSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Display';
+  src: url('/assets/fonts/GoogleSansDisplay-Regular.woff2') format('woff2'),
+       url('/assets/fonts/GoogleSansDisplay-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Apply the font globally */
+body {
+  font-family: 'Google Sans', sans-serif;
+}

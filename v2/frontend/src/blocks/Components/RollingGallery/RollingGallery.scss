@@ -1,0 +1,99 @@
+/*
+	jsrepo 1.28.1
+	Installed from https://reactbits.dev/default/
+	21-1-2025
+*/
+
+.gallery-container {
+  position: relative;
+  height: 400px; // Decreased container height
+  width: 100%;
+  overflow: hidden;
+}
+
+.gallery-gradient {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 200px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gallery-gradient-left {
+  left: 0;
+  background: linear-gradient(to right, rgb(15, 15, 15) 0%, transparent 100%);
+}
+
+.gallery-gradient-right {
+  right: 0;
+  background: linear-gradient(to left, rgb(15, 15, 15) 0%, transparent 100%);
+}
+
+.gallery-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.gallery-track {
+  display: flex;
+  height: auto;
+  min-height: 200px;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  transform-style: preserve-3d;
+  width: 100%;
+}
+
+.gallery-item {
+  position: absolute;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 8%;
+  backface-visibility: hidden;
+  width: 100%;
+  img {
+    width: 640px; // 16:9 base width
+    height: 360px; // 16:9 base height
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+.gallery-img {
+  pointer-events: none;
+  width: 400px;    // Decreased width
+  height: 266px;   // Decreased height (maintaining aspect ratio)
+  border-radius: 15px;
+  border: 4px solid rgba(255, 255, 255, 0.8);  // Added thicker white border with slight transparency
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);  // Added subtle glow effect
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover .gallery-img {
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 1);  // Full opacity on hover
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);  // Enhanced glow on hover
+}
+
+@media (max-width: 768px) {
+  .gallery-item {
+    padding: 6%;
+  }
+  .gallery-img {
+    width: 300px;    // Smaller width for mobile
+    height: 200px;   // Smaller height for mobile
+  }
+}
