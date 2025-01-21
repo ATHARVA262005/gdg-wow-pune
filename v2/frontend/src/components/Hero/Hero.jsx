@@ -11,7 +11,7 @@ function Hero() {
         <div className="mb-8">
           <GradientText 
             colors={["#4285f4", "#34a853", "#fbbc05", "#ea4335"]}
-            className="text-4xl mb-1 font-sans"
+            className="text-xl mt-28  md-text-4xl lg:text-4xl mb-1 font-sans"
             animationSpeed={6}
             showBorder={false}
           >
