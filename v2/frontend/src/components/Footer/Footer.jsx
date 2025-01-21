@@ -23,7 +23,7 @@ function Footer() {
           {/* About Section */}
           <div>
             <TextPressure text='GDG WOW' />
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-400 text-sm mb-5">
               GDG WOW is a collaborative event bringing together developer communities across India for learning and networking.
             </p>
           </div>
