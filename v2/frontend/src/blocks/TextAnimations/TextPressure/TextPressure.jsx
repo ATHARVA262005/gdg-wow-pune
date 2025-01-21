@@ -4,7 +4,7 @@
 	22-1-2025
 */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 const TextPressure = ({
   text = "Compressa",
@@ -46,16 +46,96 @@ const TextPressure = ({
     return Math.sqrt(dx * dx + dy * dy);
   };
 
+  // Debounce mouse movement
+  const debounceRAF = useCallback((callback) => {
+    let rAFId = null;
+    return (...args) => {
+      if (rAFId) {
+        cancelAnimationFrame(rAFId);
+      }
+      rAFId = requestAnimationFrame(() => callback(...args));
+    };
+  }, []);
+
+  // Throttle span updates
+  const updateSpans = useCallback((mousePos, maxDist) => {
+    spansRef.current.forEach((span, index) => {
+      if (!span) return;
+
+      // Only update every other frame for better performance
+      if (index % 2 !== frameCount % 2) return;
+
+      const rect = span.getBoundingClientRect();
+      const charCenter = {
+        x: rect.x + rect.width / 2,
+        y: rect.y + rect.height / 2,
+      };
+
+      const d = dist(mousePos, charCenter);
+
+      // Cache calculations
+      const distanceRatio = Math.abs(d / maxDist);
+      const baseValue = Math.max(0, 1 - distanceRatio);
+
+      // Batch style updates
+      const styles = {
+        opacity: alpha ? baseValue.toFixed(2) : 1,
+        fontVariationSettings: `'wght' ${weight ? Math.floor(100 + baseValue * 800) : 400}, 
+                              'wdth' ${width ? Math.floor(5 + baseValue * 195) : 100}, 
+                              'ital' ${italic ? (baseValue).toFixed(2) : 0}`
+      };
+
+      Object.assign(span.style, styles);
+    });
+  }, [alpha, width, weight, italic]);
+
+  // Optimize animation frame
+  let frameCount = 0;
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    let rafId;
+    let lastUpdate = 0;
+    const FRAME_RATE = 1000 / 30; // 30fps
+
+    const animate = (timestamp) => {
+      if (timestamp - lastUpdate >= FRAME_RATE) {
+        frameCount++;
+        
+        // Smooth mouse movement
+        mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) * 0.1;
+        mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) * 0.1;
+
+        if (titleRef.current) {
+          const titleRect = titleRef.current.getBoundingClientRect();
+          const maxDist = titleRect.width / 2;
+          
+          updateSpans(mouseRef.current, maxDist);
+        }
+
+        lastUpdate = timestamp;
+      }
+
+      rafId = requestAnimationFrame(animate);
+    };
+
+    rafId = requestAnimationFrame(animate);
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
+  }, [updateSpans]);
+
+  // Optimize mouse/touch event handlers
+  useEffect(() => {
+    const handleMouseMove = debounceRAF((e) => {
       cursorRef.current.x = e.clientX;
       cursorRef.current.y = e.clientY;
-    };
-    const handleTouchMove = (e) => {
+    });
+
+    const handleTouchMove = debounceRAF((e) => {
       const t = e.touches[0];
       cursorRef.current.x = t.clientX;
       cursorRef.current.y = t.clientY;
-    };
+      e.preventDefault();
+    });
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
@@ -74,7 +154,7 @@ const TextPressure = ({
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, []);
+  }, [debounceRAF]);
 
   const setSize = () => {
     if (!containerRef.current || !titleRef.current) return;
@@ -107,49 +187,6 @@ const TextPressure = ({
     return () => window.removeEventListener("resize", setSize);
     // eslint-disable-next-line
   }, [scale, text]);
-
-  useEffect(() => {
-    let rafId;
-    const animate = () => {
-      mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
-      mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
-
-      if (titleRef.current) {
-        const titleRect = titleRef.current.getBoundingClientRect();
-        const maxDist = titleRect.width / 2;
-
-        spansRef.current.forEach((span) => {
-          if (!span) return;
-
-          const rect = span.getBoundingClientRect();
-          const charCenter = {
-            x: rect.x + rect.width / 2,
-            y: rect.y + rect.height / 2,
-          };
-
-          const d = dist(mouseRef.current, charCenter);
-
-          const getAttr = (distance, minVal, maxVal) => {
-            const val = maxVal - Math.abs((maxVal * distance) / maxDist);
-            return Math.max(minVal, val + minVal);
-          };
-
-          const wdth = width ? Math.floor(getAttr(d, 5, 200)) : 100;
-          const wght = weight ? Math.floor(getAttr(d, 100, 900)) : 400;
-          const italVal = italic ? getAttr(d, 0, 1).toFixed(2) : 0;
-          const alphaVal = alpha ? getAttr(d, 0, 1).toFixed(2) : 1;
-
-          span.style.opacity = alphaVal;
-          span.style.fontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
-        });
-      }
-
-      rafId = requestAnimationFrame(animate);
-    };
-
-    animate();
-    return () => cancelAnimationFrame(rafId);
-  }, [width, weight, italic, alpha, chars.length]);
 
   const dynamicClassName = [
     className,
