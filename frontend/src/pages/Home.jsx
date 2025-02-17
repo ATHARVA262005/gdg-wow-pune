@@ -6,11 +6,13 @@ import AnimatedLogo from '../components/AnimatedLogo';
 import agenda from '../data/agenda';
 import faqs from '../data/faqs';
 import collaborators from '../data/collaborators';
+import Navbar from '../components/Navbar';
 
 
 function Home() {
   return (
     <div className="min-h-screen bg-neutral-900">
+      <Navbar />
       <section className="h-screen relative overflow-hidden bg-neutral-900">
         <GridPattern />
         <div className="absolute bottom-0 left-0 right-0">
@@ -43,7 +45,7 @@ function Home() {
       </section>
 
       <section className="py-20 bg-neutral-900/80 px-4 relative overflow-hidden">
-        <GridPattern />
+    
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">Venue</h2>
           <div className="bg-neutral-800/50 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden">
@@ -108,7 +110,7 @@ function Home() {
       </section>
 
       <section className="py-20 bg-neutral-900/80 px-4 relative overflow-hidden">
-        <GridPattern />
+
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="md:flex gap-8 items-center justify-center">
             <div className="md:w-1/2 space-y-4 text-center md:text-center">
@@ -137,7 +139,7 @@ function Home() {
       </section>
 
       <section className="py-20 bg-neutral-900/80 px-4 relative overflow-hidden">
-        <GridPattern />
+   
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">What’s in Store for You</h2>
           <div className="grid md:grid-cols-4 gap-6 text-white text-center">
@@ -182,7 +184,7 @@ function Home() {
       </section>
 
       <section className="py-20 bg-neutral-900 px-4 relative overflow-hidden">
-        <GridPattern />
+     
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">Event Agenda</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -205,7 +207,7 @@ function Home() {
       </section>
 
       <section className="py-20 bg-neutral-900/80 px-4 relative overflow-hidden">
-        <GridPattern />
+
         <div className="max-w-7xl mx-auto relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">Speakers</h2>
           <div className="flex flex-wrap justify-center gap-4">
@@ -238,7 +240,7 @@ function Home() {
       </section>
 
       <section className="py-12 bg-neutral-900 px-4 relative overflow-hidden"> {/* reduced py-20 to py-12 */}
-        <GridPattern />
+
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex items-center justify-center gap-4 mb-8"> {/* reduced mb-12 to mb-8 */}
             <div className="flex gap-2">
@@ -322,7 +324,7 @@ function Home() {
       </section>
 
       <section className="py-20 bg-neutral-900/80 px-4 relative overflow-hidden">
-        <GridPattern />
+ 
         <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">Frequently Asked Questions</h2>
           <div className="space-y-4">
@@ -354,7 +356,7 @@ function Home() {
       </section>
 
       <section className="py-20 bg-neutral-900/80 px-4 relative overflow-hidden">
-        <GridPattern />
+  
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">Participating GDGoCs</h2>
           <div className="grid grid-cols-3 gap-6">
@@ -422,7 +424,7 @@ function Home() {
       </section>
 
       <footer className="py-4 bg-neutral-900/80 text-center text-white">
-      <GridPattern />
+      
         <p>
           Made by <a href="https://www.linkedin.com/in/atharvaralegankar/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Atharva Raleganakr</a> &copy; 2025
         </p>
